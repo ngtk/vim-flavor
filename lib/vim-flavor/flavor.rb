@@ -61,10 +61,14 @@ module Vim
           end
       end
 
+      def scm_command
+        mercurial? ? 'hg' : 'git'
+      end
+
       def clone()
         sh %Q[
           {
-            git clone '#{repo_uri}' '#{cached_repo_path}'
+            #{scm_command} clone '#{repo_uri}' '#{cached_repo_path}'
           } 2>&1
         ]
         true
@@ -144,6 +148,10 @@ module Vim
 
       def satisfied_with?(version)
         version_constraint.compatible?(version)
+      end
+
+      def mercurial?
+        /hg@bitbucket.org/.match(repo_uri)
       end
 
       def make_branch_version(branch)

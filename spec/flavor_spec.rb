@@ -45,6 +45,24 @@ module Vim
         it {is_expected.not_to be_satisfied_with version('1.1.3')}
         it {is_expected.not_to be_satisfied_with version('1.2.2')}
       end
+
+      describe '#mercurial?' do
+        subject do
+          f = Flavor.new
+          f.repo_name = repo_name
+          f
+        end
+
+        context 'repo_name is ssh://hg@bitbucket.org/hoo/bar' do
+          let(:repo_name) { 'ssh://hg@bitbucket.org/hoo/bar' }
+          it { is_expected.to be_mercurial }
+        end
+
+        context 'repo_name is https://github.com/hoo/bar.git' do
+          let(:repo_name) { 'https://github.com/hoo/bar.git' }
+          it { is_expected.not_to be_mercurial }
+        end
+      end
     end
   end
 end
