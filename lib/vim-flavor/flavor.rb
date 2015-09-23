@@ -130,7 +130,7 @@ module Vim
         output = sh %Q[
           {
             cd '#{cached_repo_path}' &&
-            git tag
+            #{mercurial? ? 'hg tags' : 'git tag'}
           } 2>&1
         ]
         output.split(/[\r\n]/)
