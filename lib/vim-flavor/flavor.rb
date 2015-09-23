@@ -75,10 +75,11 @@ module Vim
       end
 
       def fetch()
+        command = mercurial? ? 'hg pull' : "git fetch origin --tags '+refs/heads/*:refs/remotes/origin/*'"
         sh %Q{
           {
             cd '#{cached_repo_path}' &&
-            git fetch origin --tags '+refs/heads/*:refs/remotes/origin/*'
+            #{command}
           } 2>&1
         }
       end
